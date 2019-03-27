@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import React from "react";
 
-import React from "react";
 import AllCampuses from "./AllCampuses";
 import AllStudents from "./AllStudents";
 import SingleCampus from "./SingleCampus";
@@ -19,7 +18,7 @@ const Root = () => {
         <NavBar />
         <main>
           <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
-          <p>This seems like a nice place to get started with some Routes!</p>
+
           <Switch>
             <Route path="/students/add" component={AddStudent} />
             <Route path="/campuses/add" component={AddCampus} />

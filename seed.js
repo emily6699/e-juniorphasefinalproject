@@ -26,7 +26,7 @@ const seed = async () => {
       firstName: "Aaa",
       lastName: "Aoo",
       email: "Aaa@gmail.com",
-      gpa: 3.0
+      gpa: 3.1
     }),
     Students.create({
       firstName: "Bbb",
