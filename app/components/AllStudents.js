@@ -65,6 +65,7 @@ class AllStudents extends Component {
         ) : (
           "No STUDENT.PLEASE ADD. :)"
         )}
+        <UpdateStudent />
       </div>
     );
   }

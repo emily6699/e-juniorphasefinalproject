@@ -36,17 +36,18 @@ class SingleStudent extends Component {
         <div>
           <img src={imageUrl} />
         </div>
-        <h3>{email}</h3>
-        <h3>{gpa}</h3>
-        <h3>Campus</h3>
-        {campus ? (
-          <div>
-            <h2 onClick={() => this.handleClick(campus.id)}>{campus.name}</h2>
-          </div>
-        ) : (
-          `${firstName} ${lastName} is not currently assigned to a campus: feel free to assign one!`
-        )}
-        <UpdateStudent />
+        <h4>Email: {email}</h4>
+        <h4>GPA: {gpa}</h4>
+        <h4>
+          Campus:
+          {campus ? (
+            <div>
+              <h4 onClick={() => this.handleClick(campus.id)}>{campus.name}</h4>
+            </div>
+          ) : (
+            `${firstName} ${lastName} is not currently assigned to a campus: feel free to assign one!`
+          )}
+        </h4>
       </div>
     );
   }

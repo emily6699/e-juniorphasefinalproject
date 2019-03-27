@@ -35,42 +35,36 @@ router.get("/:studentId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const student = await Students.create(req.body.state);
-    const campus = await Campuses.findById(req.body.campusId);
-    await student.setCampus(campus);
-  } catch (error) {
-    next(error);
+    const student = await Students.create(req.body);
+    res.json(student);
+  } catch (err) {
+    next(err);
   }
 });
 
 // eslint-disable-next-line quotes
 router.delete("/:studentId", async (req, res, next) => {
-  const studentId = Number(req.params.studentId);
-  const student = await Students.findById(studentId);
-
-  if (student === null) {
-    res.status(404).send();
-  } else {
-    await Students.destroy({
-      where: {
-        id: studentId
-      }
-    });
-    res.status(204).send();
+  try {
+    const studentId = Number(req.params.studentId);
+    const student = await Students.findById(studentId);
+    if (!student) return next();
+    student.destroy();
+    res.json(student);
+  } catch (err) {
+    next(err);
   }
 });
 
 router.put("/:studentId", async (req, res, next) => {
-  const studentId = Number(req.params.studentId);
-  const student = await Students.findById(studentId);
+  try {
+    const studentId = Number(req.params.studentId);
+    let student = await Students.findById(studentId);
 
-  if (student === null) {
-    res.status(404).send();
-  } else {
-    await student.update({
-      ...req.body
-    });
-    res.status(204).send();
+    if (!student) return next();
+    student = await student.update(req.body);
+    res.json(student);
+  } catch (err) {
+    next(err);
   }
 });
 

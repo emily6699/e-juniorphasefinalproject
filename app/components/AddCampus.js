@@ -18,6 +18,9 @@ class AddCampus extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  async componentDidMount() {
+    await this.props.loadAllCampuses();
+  }
 
   handleChange(event) {
     this.setState({

@@ -6,8 +6,8 @@ router.get("/", async (req, res, next) => {
   try {
     const campuses = await Campuses.findAll();
     res.send(campuses);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -35,7 +35,7 @@ router.get("/:campusId", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const campus = await Campuses.create(req.body);
-    res.status(204).send(campus.dataValues);
+    res.json(campus);
   } catch (error) {
     next(error);
   }
@@ -45,47 +45,23 @@ router.delete("/:campusId", async (req, res, next) => {
   try {
     const campusId = Number(req.params.campusId);
     const campus = await Campuses.findById(campusId);
-
-    if (campus === null) {
-      res.status(404).send();
-    } else {
-      await Campuses.destroy({
-        where: {
-          id: campusId
-        }
-      });
-      res.status(204).send();
-      if (campus === null) {
-        res.status(404).send();
-      } else {
-        await Campus.destroy({
-          where: {
-            id: campusId
-          }
-        });
-        res.status(204).send();
-      }
-    }
-  } catch (error) {
-    next(error);
+    if (!campus) return next();
+    campus.destroy();
+    res.json(campus);
+  } catch (err) {
+    next(err);
   }
 });
 
 router.put("/:campusId", async (req, res, next) => {
   try {
     const campusId = Number(req.params.campusId);
-    const campus = await Campuses.findById(campusId);
-
-    if (campus === null) {
-      res.status(404).send();
-    } else {
-      await campus.update({
-        ...req.body
-      });
-      res.status(204).send();
-    }
-  } catch (error) {
-    next(error);
+    let campus = await Campuses.findById(campusId);
+    if (!campus) return next();
+    campus = await campus.update(req.body);
+    res.json(campus);
+  } catch (err) {
+    next(err);
   }
 });
 
