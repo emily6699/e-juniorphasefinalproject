@@ -12,7 +12,7 @@ const Campuses = db.define("campuses", {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      "https://mytakeonphotography.files.wordpress.com/2012/07/a-view-of-the-law-library-at-the-university-of-michigan-from-inside-the-law-quad-e1342318572899.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZxv1VS1kuy8Jf3grnnkymZ0OiUpPeXEJZKoy-NgYJnRLKd_U6",
     validate: {
       notEmpty: true
     }

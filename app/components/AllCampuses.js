@@ -5,9 +5,9 @@ import { getCampuses, deleteCampus } from "../actions/action-creators";
 import { Link, withRouter } from "react-router-dom";
 
 class AllCampuses extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     console.log("CDM campuses");
-    await this.props.loadAllCampuses();
+    this.props.getCampuses();
   }
 
   handleClick = async id => {

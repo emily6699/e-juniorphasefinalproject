@@ -4,14 +4,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Student = props => {
-  const { firstname, lastname, email, imageUrl, gpa, campus } = props.student;
+  const { firstName, lastName, email, imageUrl, gpa, campus } = props.student;
   return (
     <div>
       <h2>
-        {firstname} {lastname}
+        {firstName} {lastName}
       </h2>
-      <h3>{email}</h3>
-      <h4>{gpa}</h4>
+      <h3>Email: {email}</h3>
+      <h4>GPA: {gpa}</h4>
       <img src={imageUrl} />
       {campus && campus.name ? (
         <Link to={`/campuses/${campus.id}`}>

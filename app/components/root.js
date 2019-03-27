@@ -18,7 +18,7 @@ const Root = () => {
     <Router>
       <div>
         <nav>
-          Welcome!
+          <span> Welcome! </span>
           <div className="nav-links">
             <NavLink to="/campuses" className="navlink">
               {" "}

@@ -23,26 +23,26 @@ const seed = async () => {
 
   const [Aaa, Bbb, Ccc, Ddd] = await Promise.all([
     Students.create({
-      firstName: "Aaa",
-      lastName: "Aoo",
+      firstName: "Ally",
+      lastName: "Smith",
       email: "Aaa@gmail.com",
       gpa: 3.1
     }),
     Students.create({
-      firstName: "Bbb",
-      lastName: "Boo",
+      firstName: "Bob",
+      lastName: "William",
       email: "Bbb@gmail.com",
       gpa: 3.3
     }),
     Students.create({
-      firstName: "Ccc",
-      lastName: "Coo",
+      firstName: "Ceclia",
+      lastName: "Quant",
       email: "Ccc@gmail.com",
       gpa: 3.6
     }),
     Students.create({
-      firstName: "Ddd",
-      lastName: "Doo",
+      firstName: "Deni",
+      lastName: "Dulow",
       email: "Ddd@gmail.com",
       gpa: 3.9
     })

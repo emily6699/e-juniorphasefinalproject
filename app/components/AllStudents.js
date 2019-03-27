@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 import { getStudents, deleteStudent } from "../actions/action-creators";
 import { Link } from "react-router-dom";
 
@@ -25,7 +26,7 @@ class AllStudents extends Component {
             <button onClick={() => this.handleClick(student.id)}>X</button>
             <Link to={`students/${student.id}`}>
               <h3>
-                {student.firstname} {student.lastname}
+                {student.firstName} {student.lastName}
               </h3>
             </Link>
           </div>
@@ -35,12 +36,12 @@ class AllStudents extends Component {
   }
 }
 
-const mapStateToProp = state => ({
+const mapStateToStudent = state => ({
   students: state.students.list,
   isLoading: state.students.isLoading
 });
 
 export default connect(
-  mapStateToProp,
+  mapStateToStudent,
   { getStudents, deleteStudent }
 )(AllStudents);

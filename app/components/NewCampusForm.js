@@ -4,23 +4,25 @@ import axios from "axios";
 export default class NewCampusForm extends Component {
   state = {
     name: "",
-    address: ""
+    address: "",
+    description: ""
   };
 
   componentDidMount() {
     if (this.props.campus) {
-      const { name, address } = this.props.campus;
-      this.setState({ name, address });
+      const { name, address, description } = this.props.campus;
+      this.setState({ name, address, description });
     }
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
+  handleSubmit = async event => {
+    event.preventDefault();
     if (this.props.campus) {
       // modify campus
       this.props.update(this.props.campus, {
-        name: e.target.name.value,
-        address: e.target.address.value
+        name: event.target.name.value,
+        address: event.target.address.value,
+        description: event.target.description.value
       });
     } else {
       await axios.post("/api/campuses", this.state);
@@ -28,9 +30,9 @@ export default class NewCampusForm extends Component {
     }
   };
 
-  handleChange = e => {
+  handleChange = event => {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   };
 
@@ -54,6 +56,15 @@ export default class NewCampusForm extends Component {
             value={this.state.address}
             onChange={this.handleChange}
           />
+          <input
+            required
+            type="textarea"
+            name="description"
+            placeholder="Description"
+            value={this.state.description}
+            onChange={this.handleChange}
+          />
+
           <button type="submit">Submit</button>
         </form>
       </div>

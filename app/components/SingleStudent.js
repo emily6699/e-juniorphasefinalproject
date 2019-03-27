@@ -24,7 +24,7 @@ class SingleStudent extends Component {
     return (
       <div>
         <Student student={student} />
-        <NewStudentForm student={student} update={this.handleUpdate} />;
+        <NewStudentForm student={student} update={this.handleUpdate} />
       </div>
     );
   }

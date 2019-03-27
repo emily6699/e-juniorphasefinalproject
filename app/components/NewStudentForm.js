@@ -1,17 +1,19 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import axios from "axios";
 
 export default class NewStudentForm extends Component {
   state = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
+    gpa: 0,
     email: ""
   };
 
   componentDidMount() {
     if (this.props.student) {
-      const { firstname, lastname, email } = this.props.student;
-      this.setState({ firstname, lastname, email });
+      const { firstName, lastName, gpa, email } = this.props.student;
+      this.setState({ firstName, lastName, gpa, email });
     }
   }
 
@@ -19,8 +21,9 @@ export default class NewStudentForm extends Component {
     e.preventDefault();
     if (this.props.student) {
       this.props.update(this.props.student, {
-        firstname: e.target.firstname.value,
-        lastname: e.target.lastname.value,
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        gpa: e.target.gpa.value,
         email: e.target.email.value
       });
     } else {
@@ -42,17 +45,28 @@ export default class NewStudentForm extends Component {
           <input
             required
             type="text"
-            name="firstname"
-            placeholder="Firstname"
-            value={this.state.firstname}
+            name="firstName"
+            placeholder="firstName"
+            value={this.state.firstName}
             onChange={this.handleChange}
           />
           <input
             required
             type="text"
-            name="lastname"
-            placeholder="Lastname"
-            value={this.state.lastname}
+            name="lastName"
+            placeholder="lastName"
+            value={this.state.lastName}
+            onChange={this.handleChange}
+          />
+          <input
+            required
+            type="number"
+            step="0.1"
+            min="0.0"
+            max="4.0"
+            name="gpa"
+            placeholder="GPA"
+            value={this.state.gpa}
             onChange={this.handleChange}
           />
           <input
