@@ -27,7 +27,7 @@ const Students = db.define("students", {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      "https://images-na.ssl-images-amazon.com/images/I/519lO0ecWRL._SX425_.jpg"
+      "https://image.freepik.com/free-photo/young-college-students-sitting-grass-park_13339-9748.jpg"
   },
   gpa: {
     type: Sequelize.FLOAT,

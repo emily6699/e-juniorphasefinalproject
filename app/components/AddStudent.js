@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStudent } from "../reducers/studentsReducer";

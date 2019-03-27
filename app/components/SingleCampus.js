@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSingleCampus } from "../reducers/campusesReducer";
@@ -17,33 +18,41 @@ class SingleCampus extends Component {
   }
 
   render() {
-    const { name, imageUrl, description, students } = this.props.campus;
-    console.log(this.props.campus);
+    const campuses = this.props.campuses;
+    console.log(this.props, "campusprops-render AllCampuses");
     return (
-      <div>
-        <h2>{name}</h2>
-        <div>
-          <img src={imageUrl} />
-        </div>
-        <h3>{description}</h3>
-        <h3>Students</h3>
-        {students ? (
+      <div id="all-campuses">
+        <span>
+          <h1>All Campuses</h1>
+          <button type="button" onClick={this.changeToAdd}>
+            +
+          </button>
+        </span>
+        {campuses ? (
           <ul>
-            {students.map(student => {
+            {campuses.map(campus => {
               return (
-                <li key={student.id}>
-                  <div>
-                    <h2 onClick={() => this.handleClick(student.id)}>
-                      {student.firstName} {student.lastName}
-                    </h2>
-                  </div>
-                </li>
+                <div key={campus.id}>
+                  <li onClick={() => this.goToCampus(campus.id)}>
+                    <div>
+                      <h2>{campus.name}</h2>
+                      <div>
+                        <img src={campus.imageUrl} />
+                      </div>
+                    </div>
+                  </li>
+                  <button
+                    type="button"
+                    onClick={() => this.handleClick(campus.id)}
+                  >
+                    X
+                  </button>
+                </div>
               );
             })}
           </ul>
-           <StudentList students={students} history={this.props.history} />
         ) : (
-          `${name} campus currently has no students: feel free to add one!`
+          "No campuses: feel free to add some!"
         )}
       </div>
     );

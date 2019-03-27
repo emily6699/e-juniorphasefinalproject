@@ -1,7 +1,7 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSingleStudent } from "../reducers/studentsReducer";
-import StudentList from "./StudentList";
 
 class SingleStudent extends Component {
   constructor(props) {

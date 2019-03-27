@@ -12,7 +12,7 @@ const Campuses = db.define("campuses", {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      "https://smapse.com/storage/2016/04/building-main-stonyhurst-college-clitheroe-uk-shkola-pansion-34.jpg",
+      "https://mytakeonphotography.files.wordpress.com/2012/07/a-view-of-the-law-library-at-the-university-of-michigan-from-inside-the-law-quad-e1342318572899.jpg",
     validate: {
       notEmpty: true
     }

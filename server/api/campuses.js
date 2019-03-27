@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const router = require("express").Router();
 const { Campuses, Students } = require("../db");
 
@@ -37,6 +38,36 @@ router.post("/", async (req, res, next) => {
     res.status(204).send(campus.dataValues);
   } catch (error) {
     next(error);
+  }
+});
+
+router.delete("/:campusId", async (req, res, next) => {
+  const campusId = Number(req.params.campusId);
+  const campus = await Campuses.findById(campusId);
+
+  if (campus === null) {
+    res.status(404).send();
+  } else {
+    await Campuses.destroy({
+      where: {
+        id: campusId
+      }
+    });
+    res.status(204).send();
+  }
+});
+
+router.put("/:campusId", async (req, res, next) => {
+  const campusId = Number(req.params.campusId);
+  const campus = await Campuses.findById(campusId);
+
+  if (campus === null) {
+    res.status(404).send();
+  } else {
+    await campus.update({
+      ...req.body
+    });
+    res.status(204).send();
   }
 });
 

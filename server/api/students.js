@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const router = require("express").Router();
 const { Campuses, Students } = require("../db");
 
@@ -34,11 +35,43 @@ router.get("/:studentId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const student = await Student.create(req.body);
+    const student = await Students.create(req.body);
     res.status(204).send();
     res.send(student.dataValues);
   } catch (error) {
     next(error);
   }
 });
+
+// eslint-disable-next-line quotes
+router.delete("/:studentId", async (req, res, next) => {
+  const studentId = Number(req.params.studentId);
+  const student = await Students.findById(studentId);
+
+  if (student === null) {
+    res.status(404).send();
+  } else {
+    await Students.destroy({
+      where: {
+        id: studentId
+      }
+    });
+    res.status(204).send();
+  }
+});
+
+router.put("/:studentId", async (req, res, next) => {
+  const studentId = Number(req.params.studentId);
+  const student = await Students.findById(studentId);
+
+  if (student === null) {
+    res.status(404).send();
+  } else {
+    await student.update({
+      ...req.body
+    });
+    res.status(204).send();
+  }
+});
+
 module.exports = router;

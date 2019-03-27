@@ -1,8 +1,9 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getStudents } from "../reducers/studentsReducer";
+import { getStudents, removeStudentThunk } from "../reducers/studentsReducer";
 import StudentList from "./StudentList";
-import AddStudent from './AddStudent';
+import AddStudent from "./AddStudent";
 
 class AllStudents extends Component {
   constructor(props) {
@@ -18,6 +19,10 @@ class AllStudents extends Component {
     this.props.history.push(`/students/${studentId}`);
   }
 
+  removeStudent(studentId) {
+    this.props.deleteStudent(studentId);
+  }
+
   render() {
     const students = this.props.students;
     console.log(this.props, "studentprops");
@@ -26,7 +31,9 @@ class AllStudents extends Component {
       <div id="all-students">
         <span>
           <h1>All Students</h1>
-          <AddStudent />
+          <button type="button" onClick={this.changeToAdd}>
+            +
+          </button>
         </span>
         {students && students.length > 0 ? (
           <ul>
@@ -40,13 +47,18 @@ class AllStudents extends Component {
                       </h2>
                     </div>
                   </li>
+                  <button
+                    type="button"
+                    onClick={() => this.removeStudent(student.id)}
+                  >
+                    X
+                  </button>
                 </div>
               );
             })}
           </ul>
-          <StudentList students={students} history={this.props.history} />
         ) : (
-          "NO STUDENT. PLEASE ADD. :)"
+          "No STUDENT.PLEASE ADD. :)"
         )}
       </div>
     );
@@ -62,7 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadAllStudents: () => dispatch(getStudents())
+    loadAllStudents: () => dispatch(getStudents()),
+    deleteStudent: studentId => dispatch(removeStudentThunk(studentId))
   };
 };
 

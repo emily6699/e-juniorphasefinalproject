@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import axios from "axios";
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
 const SET_CAMPUSES = "SET_CAMPUSES";
 const SELECT_CAMPUS = "SELECT_CAMPUS";
 const ADD_CAMPUS = "ADD_CAMPUS";
+const REMOVE_CAMPUS = "REMOVE_CAMPUS";
 
 const setCampuses = campusList => {
   return {
@@ -26,6 +28,13 @@ const addCampus = campus => {
   return {
     type: ADD_CAMPUS,
     campus
+  };
+};
+
+const removeCampus = campusId => {
+  return {
+    type: REMOVE_CAMPUS,
+    campusId
   };
 };
 
@@ -59,6 +68,15 @@ export const createCampus = campus => async dispatch => {
   }
 };
 
+export const removeCampusThunk = campusId => async dispatch => {
+  try {
+    await axios.delete(`/api/campuses/${campusId}`);
+    dispatch(removeCampus(campusId));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const campusReducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
@@ -70,8 +88,14 @@ export const campusReducer = (state = initialState, action) => {
       break;
     case ADD_CAMPUS:
       newState.campusList = [...newState.campusList, action.campus];
+      break;
+    case REMOVE_CAMPUS:
+      newState.campusList = newState.campusList.filter(
+        campus => campus.id !== action.campusId
+      );
       console.log("newState", newState);
       break;
+
     default:
       return state;
   }

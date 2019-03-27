@@ -1,6 +1,7 @@
+/* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getCampuses } from "../reducers/campusesReducer";
+import { getCampuses, removeCampusThunk } from "../reducers/campusesReducer";
 import AddCampus from "./AddCampus";
 
 class AllCampuses extends Component {
@@ -16,15 +17,20 @@ class AllCampuses extends Component {
   goToCampus(campusId) {
     this.props.history.push(`/campuses/${campusId}`);
   }
+  handleClick(campusId) {
+    this.props.deleteCampus(campusId);
+  }
 
   render() {
     const campuses = this.props.campuses;
-    console.log(this.props, "campusprops");
+    console.log(this.props, "campusprops-render AllCampuses");
     return (
       <div id="all-campuses">
         <span>
           <h1>All Campuses</h1>
-          <AddCampus />
+          <button type="button" onClick={this.changeToAdd}>
+            +
+          </button>
         </span>
         {campuses ? (
           <ul>
@@ -32,10 +38,6 @@ class AllCampuses extends Component {
               return (
                 <div key={campus.id}>
                   <li onClick={() => this.goToCampus(campus.id)}>
-                    <li
-                      key={campus.id}
-                      onClick={() => this.goToCampus(campus.id)}
-                    />
                     <div>
                       <h2>{campus.name}</h2>
                       <div>
@@ -43,12 +45,18 @@ class AllCampuses extends Component {
                       </div>
                     </div>
                   </li>
+                  <button
+                    type="button"
+                    onClick={() => this.handleClick(campus.id)}
+                  >
+                    X
+                  </button>
                 </div>
               );
             })}
           </ul>
         ) : (
-          "No CAMPUS. Please Add. :)"
+          "NO CAMPUS. PLEASE ADD.:)"
         )}
       </div>
     );
@@ -64,7 +72,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadAllCampuses: () => dispatch(getCampuses())
+    loadAllCampuses: () => dispatch(getCampuses()),
+    deleteCampus: campusId => dispatch(removeCampusThunk(campusId))
   };
 };
 
