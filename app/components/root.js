@@ -1,34 +1,48 @@
 /* eslint-disable quotes */
 import React from "react";
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  NavLink
+} from "react-router-dom";
 import AllCampuses from "./AllCampuses";
 import AllStudents from "./AllStudents";
 import SingleCampus from "./SingleCampus";
 import SingleStudent from "./SingleStudent";
-import AddStudent from "./AddStudent";
-import AddCampus from "./AddCampus";
-import NavBar from "./NavBar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import NewCampusForm from "./NewCampusForm";
+import NewStudentForm from "./NewStudentForm";
 
 const Root = () => {
   return (
     <Router>
       <div>
-        {/* <nav>Welcome!</nav> */}
-        <NavBar />
+        <nav>
+          Welcome!
+          <div className="nav-links">
+            <NavLink to="/campuses" className="navlink">
+              {" "}
+              Campuses{" "}
+            </NavLink>
+            <NavLink to="/students" className="navlink">
+              {" "}
+              Students
+            </NavLink>
+          </div>
+        </nav>
         <main>
           <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
-
-          <Switch>
-            <Route path="/students/add" component={AddStudent} />
-            <Route path="/campuses/add" component={AddCampus} />
-            <Route exact path="/students" component={AllStudents} />
-            <Route exact path="/campuses" component={AllCampuses} />
-            <Route path="/campuses" component={AllCampuses} />
-            <Route path="/campuses/:campusId" component={SingleCampus} />
-            <Route path="/students/:studentId" component={SingleStudent} />
-          </Switch>
         </main>
+        <Switch>
+          <Route path="/students/:id" component={SingleStudent} />
+          <Route path="/campuses/:id" component={SingleCampus} />
+          <Route exact path="/" component={AllCampuses} />
+          <Route exact path="/campuses" component={AllCampuses} />
+          <Route exact path="/students" component={AllStudents} />
+          <Route exact path="/newcampus" component={NewCampusForm} />
+          <Route exact path="/newstudent" component={NewStudentForm} />
+          <Route render={() => "Not Found. Try another page"} />
+        </Switch>
       </div>
     </Router>
   );

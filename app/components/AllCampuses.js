@@ -1,90 +1,48 @@
 /* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getCampuses, removeCampusThunk } from "../reducers/campusesReducer";
-import AddCampus from "./AddCampus";
+import { getCampuses, deleteCampus } from "../actions/action-creators";
+import { Link, withRouter } from "react-router-dom";
 
 class AllCampuses extends Component {
-  constructor(props) {
-    super(props);
-
-    this.changeToAdd = this.changeToAdd.bind(this);
-  }
-
   async componentDidMount() {
     console.log("CDM campuses");
     await this.props.loadAllCampuses();
   }
 
-  goToCampus(campusId) {
-    this.props.history.push(`/campuses/${campusId}`);
-  }
-  handleClick(campusId) {
-    this.props.deleteCampus(campusId);
-  }
-  changeToAdd() {
-    this.props.history.push(`/campuses/add`);
-  }
+  handleClick = async id => {
+    this.props.deleteCampus(id);
+  };
 
   render() {
-    const campuses = this.props.campuses;
-    console.log(this.props, "campusprops-render AllCampuses");
+    if (this.props.isLoading) return <h1>LOADING...</h1>;
     return (
-      <div id="all-campuses">
-        <span>
-          <h1>All Campuses</h1>
-          <AddCampus />
-          <button type="button" onClick={this.changeToAdd}>
-            +
-          </button>
-        </span>
-        {campuses ? (
-          <ul>
-            {campuses.map(campus => {
-              return (
-                <div key={campus.id}>
-                  <li onClick={() => this.goToCampus(campus.id)}>
-                    <div>
-                      <h2>{campus.name}</h2>
-                      <div>
-                        <img src={campus.imageUrl} />
-                      </div>
-                    </div>
-                  </li>
-
-                  <button
-                    type="button"
-                    onClick={() => this.handleClick(campus.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-        ) : (
-          "NO CAMPUS. PLEASE ADD.:)"
-        )}
+      <div>
+        <Link to={"/newcampus"}>Add a campus</Link>
+        <br />
+        Campuses:
+        {this.props.list.map(campus => (
+          <div key={campus.id}>
+            <button onClick={() => this.handleClick(campus.id)}>X</button>
+            <Link to={`campuses/${campus.id}`}>
+              <h2>{campus.name}</h2>
+              <img src={campus.imageUrl} />
+            </Link>
+          </div>
+        ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  console.log("mstp campuses", state);
-  return {
-    campuses: state.campuses.campusList
-  };
-};
+const mapStateToProps = state => ({
+  list: state.campuses.list,
+  isLoading: state.campuses.isLoading
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadAllCampuses: () => dispatch(getCampuses()),
-    deleteCampus: campusId => dispatch(removeCampusThunk(campusId))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AllCampuses);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getCampuses, deleteCampus }
+  )(AllCampuses)
+);

@@ -1,71 +1,42 @@
 /* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getSingleStudent } from "../reducers/studentsReducer";
-import UpdateStudent from "./UpdateStudent";
+import { getStudent, updateStudent } from "../actions/action-creators";
+import Student from "./Student";
+import NewStudentForm from "./NewStudentForm";
 
 class SingleStudent extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    const id = Number(this.props.match.params.id);
+    this.props.getStudent(id);
   }
 
-  async componentDidMount() {
-    console.log("CDM singleStudent");
-    await this.props.loadSingleStudent(this.props.match.params.studentId);
-  }
-
-  handleClick(campusId) {
-    this.props.history.push(`/campuses/${campusId}`);
-  }
+  handleUpdate = (student, newVals) => {
+    this.props.updateStudent(student, newVals);
+  };
 
   render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      imageUrl,
-      gpa,
-      campus
-    } = this.props.student;
-    console.log(this.props.student);
+    const { student } = this.props;
+    if (this.props.err) {
+      return <h1>No such student found</h1>;
+    }
+    if (this.props.isLoading) return <h1>LOADING...</h1>;
     return (
       <div>
-        <h2>
-          {firstName} {lastName}
-        </h2>
-        <div>
-          <img src={imageUrl} />
-        </div>
-        <h4>Email: {email}</h4>
-        <h4>GPA: {gpa}</h4>
-        <h4>
-          Campus:
-          {campus ? (
-            <div>
-              <h4 onClick={() => this.handleClick(campus.id)}>{campus.name}</h4>
-            </div>
-          ) : (
-            `${firstName} ${lastName} is not currently assigned to a campus: feel free to assign one!`
-          )}
-        </h4>
+        <Student student={student} />
+        <NewStudentForm student={student} update={this.handleUpdate} />;
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadSingleStudent: studentId => dispatch(getSingleStudent(studentId))
-  };
-};
-
-const mapStateToProps = state => {
-  return {
-    student: state.students.selectedStudent
-  };
-};
+const mstp = state => ({
+  student: state.students.student,
+  err: state.students.error,
+  isLoading: state.students.isLoading
+});
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mstp,
+  { getStudent, updateStudent }
 )(SingleStudent);

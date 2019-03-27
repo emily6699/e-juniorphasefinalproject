@@ -1,79 +1,69 @@
 /* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getSingleCampus } from "../reducers/campusesReducer";
-import UpdateCampus from "./UpdateCampus";
+import { getCampus, updateCampus } from "../actions/action-creators";
+import Campus from "./Campus";
+import { Link, withRouter } from "react-router-dom";
+import NewCampusForm from "./NewCampusForm";
 
 class SingleCampus extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    try {
+      const id = Number(this.props.match.params.id);
+      this.props.getCampus(id);
+    } catch (err) {
+      console.log("ERR IS: ", err);
+    }
   }
 
-  async componentDidMount() {
-    console.log("CDM singleCampus");
-    await this.props.loadSingleCampus(this.props.match.params.campusId);
-  }
+  handleUpdate = (campus, newVals) => {
+    this.props.updateCampus(campus, newVals);
+  };
 
-  handleClick(studentId) {
-    this.props.history.push(`/students/${studentId}`);
-  }
+  students = () => {
+    if (this.props.campus) {
+      if (this.props.campus.students) {
+        const { students } = this.props.campus;
+        return students.map(student => (
+          <div key={student.id}>
+            <Link to={`/students/${student.id}`}>
+              <h3>
+                {student.firstname} {student.lastname}
+              </h3>
+            </Link>
+          </div>
+        ));
+      }
+    }
+    return <h1>No available students</h1>;
+  };
 
   render() {
-    const campuses = this.props.campuses;
-    console.log(this.props, "campusprops-render AllCampuses");
+    const { campus } = this.props;
+    if (this.props.err) {
+      return <h1>No such campus found</h1>;
+    }
+    if (this.props.isLoading) return <h1>LOADING...</h1>;
     return (
-      <div id="all-campuses">
-        <span>
-          <h1>All Campuses</h1>
-          <button type="button" onClick={this.changeToAdd}>
-            +
-          </button>
-        </span>
-        {campuses ? (
-          <ul>
-            {campuses.map(campus => {
-              return (
-                <div key={campus.id}>
-                  <li onClick={() => this.goToCampus(campus.id)}>
-                    <div>
-                      <h2>{campus.name}</h2>
-                      <div>
-                        <img src={campus.imageUrl} />
-                      </div>
-                    </div>
-                  </li>
-                  <button
-                    type="button"
-                    onClick={() => this.handleClick(campus.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-        ) : (
-          "NO CAMPUS. PLEASE ADD.:)"
-        )}
-        <UpdateCampus />
+      <div>
+        {campus ? <Campus campus={campus} /> : "No such campus"}
+        <div>{this.students()}</div>
+        <NewCampusForm campus={campus} update={this.handleUpdate} />
+        <br />
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadSingleCampus: campusId => dispatch(getSingleCampus(campusId))
-  };
-};
+const mapStateToProps = state => ({
+  err: state.campuses.error,
+  isLoading: state.campuses.isLoading,
+  campus: state.campuses.campus
+});
 
-const mapStateToProps = state => {
-  return {
-    campus: state.campuses.selectedCampus
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SingleCampus);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getCampus, updateCampus }
+  )(SingleCampus)
+);

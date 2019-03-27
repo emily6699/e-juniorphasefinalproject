@@ -1,91 +1,46 @@
 /* eslint-disable quotes */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getStudents, removeStudentThunk } from "../reducers/studentsReducer";
-import AddStudent from "./AddStudent";
-import UpdateStudent from "./UpdateStudent";
-import { NavLink, Route } from "react-router-dom";
+import { getStudents, deleteStudent } from "../actions/action-creators";
+import { Link } from "react-router-dom";
 
 class AllStudents extends Component {
-  constructor(props) {
-    super(props);
-    this.changeToAdd = this.changeToAdd.bind(this);
+  componentDidMount() {
+    this.props.getStudents();
   }
 
-  async componentDidMount() {
-    console.log("CDM students");
-    await this.props.loadAllStudents();
-  }
-  changeToAdd() {
-    this.props.history.push(`/students/add`);
-  }
-
-  handleClick(studentId) {
-    this.props.history.push(`/students/${studentId}`);
-  }
-
-  removeStudent(studentId) {
-    this.props.deleteStudent(studentId);
-  }
+  handleClick = async id => {
+    this.props.deleteStudent(id);
+  };
 
   render() {
-    const students = this.props.students;
-    console.log(this.props, "studentprops");
-    console.log(students, "*********");
+    if (this.props.isLoading) return <h1>LOADING...</h1>;
     return (
-      <div id="all-students">
-        <span>
-          <h1>All Students</h1>
-          <button type="button" onClick={this.changeToAdd}>
-            +
-          </button>
-        </span>
-        {students && students.length > 0 ? (
-          <ul>
-            {students.map(student => {
-              return (
-                <div key={student.id}>
-                  <li onClick={() => this.handleClick(student.id)}>
-                    <div>
-                      <h2>
-                        {student.firstName} {student.lastName}
-                      </h2>
-                    </div>
-                  </li>
-                  <button
-                    type="button"
-                    onClick={() => this.removeStudent(student.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-        ) : (
-          "No STUDENT.PLEASE ADD. :)"
-        )}
-        <UpdateStudent />
+      <div>
+        <Link to={"/newstudent"}>Add a student</Link>
+        <br />
+        Students:
+        {this.props.students.map(student => (
+          <div key={student.id}>
+            <button onClick={() => this.handleClick(student.id)}>X</button>
+            <Link to={`students/${student.id}`}>
+              <h3>
+                {student.firstname} {student.lastname}
+              </h3>
+            </Link>
+          </div>
+        ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  console.log("mstp students", state);
-  return {
-    students: state.students.studentList
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadAllStudents: () => dispatch(getStudents()),
-    deleteStudent: studentId => dispatch(removeStudentThunk(studentId))
-  };
-};
+const mapStateToProp = state => ({
+  students: state.students.list,
+  isLoading: state.students.isLoading
+});
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProp,
+  { getStudents, deleteStudent }
 )(AllStudents);
