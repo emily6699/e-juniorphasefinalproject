@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getCampuses } from "../reducers/campusesReducer";
+import AddCampus from "./AddCampus";
 
 class AllCampuses extends Component {
   constructor(props) {
@@ -12,26 +13,43 @@ class AllCampuses extends Component {
     await this.props.loadAllCampuses();
   }
 
+  goToCampus(campusId) {
+    this.props.history.push(`/campuses/${campusId}`);
+  }
+
   render() {
     const campuses = this.props.campuses;
     console.log(this.props, "campusprops");
     return (
       <div id="all-campuses">
-        <h1>All Campuses</h1>
-        <ul>
-          {campuses.map(campus => {
-            return (
-              <li key={campus.id}>
-                <div>
-                  <h2>{campus.name}</h2>
-                  <div>
-                    <img src={campus.imageUrl} />
-                  </div>
+        <span>
+          <h1>All Campuses</h1>
+          <AddCampus />
+        </span>
+        {campuses ? (
+          <ul>
+            {campuses.map(campus => {
+              return (
+                <div key={campus.id}>
+                  <li onClick={() => this.goToCampus(campus.id)}>
+                    <li
+                      key={campus.id}
+                      onClick={() => this.goToCampus(campus.id)}
+                    />
+                    <div>
+                      <h2>{campus.name}</h2>
+                      <div>
+                        <img src={campus.imageUrl} />
+                      </div>
+                    </div>
+                  </li>
                 </div>
-              </li>
-            );
-          })}
-        </ul>
+              );
+            })}
+          </ul>
+        ) : (
+          "No CAMPUS. Please Add. :)"
+        )}
       </div>
     );
   }

@@ -11,7 +11,7 @@ const Campuses = db.define("campuses", {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    allowNull:
+    defaultValue:
       "https://smapse.com/storage/2016/04/building-main-stonyhurst-college-clitheroe-uk-shkola-pansion-34.jpg",
     validate: {
       notEmpty: true

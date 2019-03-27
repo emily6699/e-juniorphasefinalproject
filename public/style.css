@@ -50,3 +50,11 @@ ul {
 
 #navlink-students {
 }
+.warning {
+  padding: 0 0.5em;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  background-color: rgb(97, 148, 182);
+  color: white;
+  margin-left: 1em;
+}
