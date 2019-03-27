@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSingleStudent } from "../reducers/studentsReducer";
+import UpdateStudent from "./UpdateStudent";
 
 class SingleStudent extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class SingleStudent extends Component {
         ) : (
           `${firstName} ${lastName} is not currently assigned to a campus: feel free to assign one!`
         )}
+        <UpdateStudent />
       </div>
     );
   }

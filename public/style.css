@@ -56,3 +56,7 @@ ul {
   color: white;
   margin-left: 1em;
 }
+#form {
+  display: flex;
+  flex-direction: column;
+}

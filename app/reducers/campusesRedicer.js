@@ -10,6 +10,7 @@ const SET_CAMPUSES = "SET_CAMPUSES";
 const SELECT_CAMPUS = "SELECT_CAMPUS";
 const ADD_CAMPUS = "ADD_CAMPUS";
 const REMOVE_CAMPUS = "REMOVE_CAMPUS";
+const UPDATE_CAMPUS = "UPDATE_CAMPUS";
 
 const setCampuses = campusList => {
   return {
@@ -35,6 +36,13 @@ const removeCampus = campusId => {
   return {
     type: REMOVE_CAMPUS,
     campusId
+  };
+};
+
+const updateCampus = campus => {
+  return {
+    type: UPDATE_CAMPUS,
+    campus
   };
 };
 
@@ -77,6 +85,15 @@ export const removeCampusThunk = campusId => async dispatch => {
   }
 };
 
+export const updateCampusThunk = campus => async dispatch => {
+  try {
+    await axios.put(`/api/campuses/${campus.id}`, campus);
+    dispatch(updateCampus(campus));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const campusReducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
@@ -93,6 +110,16 @@ export const campusReducer = (state = initialState, action) => {
       newState.campusList = newState.campusList.filter(
         campus => campus.id !== action.campusId
       );
+      break;
+    case UPDATE_CAMPUS:
+      newState.campusList = newState.campusList.map(campus => {
+        if (campus.id === action.campus.id) {
+          return action.campus;
+        } else {
+          return campus;
+        }
+      });
+      newState.selectedCampus = action.campus;
       console.log("newState", newState);
       break;
 

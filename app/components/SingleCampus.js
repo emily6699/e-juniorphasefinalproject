@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSingleCampus } from "../reducers/campusesReducer";
+import UpdateCampus from "./UpdateCampus";
 
 class SingleCampus extends Component {
   constructor(props) {
@@ -52,8 +53,9 @@ class SingleCampus extends Component {
             })}
           </ul>
         ) : (
-          "No campuses: feel free to add some!"
+          "NO CAMPUS. PLEASE ADD.:)"
         )}
+        <UpdateCampus />
       </div>
     );
   }

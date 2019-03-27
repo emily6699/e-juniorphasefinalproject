@@ -2,17 +2,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getStudents, removeStudentThunk } from "../reducers/studentsReducer";
-import StudentList from "./StudentList";
 import AddStudent from "./AddStudent";
+import UpdateStudent from "./UpdateStudent";
+import { NavLink, Route } from "react-router-dom";
 
 class AllStudents extends Component {
   constructor(props) {
     super(props);
+    this.changeToAdd = this.changeToAdd.bind(this);
   }
 
   async componentDidMount() {
     console.log("CDM students");
     await this.props.loadAllStudents();
+  }
+  changeToAdd() {
+    this.props.history.push(`/students/add`);
   }
 
   handleClick(studentId) {

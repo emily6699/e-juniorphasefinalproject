@@ -35,9 +35,9 @@ router.get("/:studentId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const student = await Students.create(req.body);
-    res.status(204).send();
-    res.send(student.dataValues);
+    const student = await Students.create(req.body.state);
+    const campus = await Campuses.findById(req.body.campusId);
+    await student.setCampus(campus);
   } catch (error) {
     next(error);
   }

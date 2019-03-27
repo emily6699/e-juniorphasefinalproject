@@ -10,6 +10,7 @@ const SET_STUDENTS = "SET_CAMPUSES";
 const SELECT_STUDENT = "SELECT_STUDENT";
 const ADD_STUDENT = "ADD_STUDENT";
 const REMOVE_STUDENT = "REMOVE_STUDENT";
+const UPDATE_STUDENT = "UPDATE_STUDENT";
 
 const setStudents = studentList => {
   return {
@@ -37,6 +38,13 @@ const removeStudent = studentId => {
   return {
     type: REMOVE_STUDENT,
     studentId
+  };
+};
+
+const updateStudent = student => {
+  return {
+    type: UPDATE_STUDENT,
+    student
   };
 };
 
@@ -79,6 +87,15 @@ export const removeStudentThunk = studentId => async dispatch => {
   }
 };
 
+export const updateStudentThunk = student => async dispatch => {
+  try {
+    await axios.put(`/api/students/${student.id}`, student);
+    dispatch(updateStudent(student));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const studentReducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
@@ -95,6 +112,16 @@ export const studentReducer = (state = initialState, action) => {
       newState.studentList = newState.studentList.filter(
         student => student.id !== action.studentId
       );
+      break;
+    case UPDATE_STUDENT:
+      newState.studentList = newState.studentList.map(student => {
+        if (student.id === action.student.id) {
+          return action.student;
+        } else {
+          return student;
+        }
+      });
+      newState.selectedStudent = action.student;
       console.log("newState", newState);
       break;
     default:

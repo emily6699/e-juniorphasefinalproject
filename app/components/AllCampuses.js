@@ -7,6 +7,8 @@ import AddCampus from "./AddCampus";
 class AllCampuses extends Component {
   constructor(props) {
     super(props);
+
+    this.changeToAdd = this.changeToAdd.bind(this);
   }
 
   async componentDidMount() {
@@ -20,6 +22,9 @@ class AllCampuses extends Component {
   handleClick(campusId) {
     this.props.deleteCampus(campusId);
   }
+  changeToAdd() {
+    this.props.history.push(`/campuses/add`);
+  }
 
   render() {
     const campuses = this.props.campuses;
@@ -28,6 +33,7 @@ class AllCampuses extends Component {
       <div id="all-campuses">
         <span>
           <h1>All Campuses</h1>
+          <AddCampus />
           <button type="button" onClick={this.changeToAdd}>
             +
           </button>
@@ -45,6 +51,7 @@ class AllCampuses extends Component {
                       </div>
                     </div>
                   </li>
+
                   <button
                     type="button"
                     onClick={() => this.handleClick(campus.id)}

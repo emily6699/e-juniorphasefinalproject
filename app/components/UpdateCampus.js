@@ -1,10 +1,8 @@
-/* eslint-disable quotes */
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { createCampus } from "../reducers/campusesReducer";
+import { updateCampusThunk } from "../reducers/campusesReducer";
 
-class AddCampus extends Component {
+class UpdateCampus extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,15 +27,22 @@ class AddCampus extends Component {
   async handleSubmit(event) {
     try {
       event.preventDefault();
-      console.log("state in addcampus", this.state);
+      console.log("state in updateCampus", this.state);
 
-      const newState = { ...this.state };
-      if (this.state.imageUrl === "") {
-        delete newState.imageUrl;
-      }
+      console.log(
+        this.props.selectedCampus.students,
+        "selected campus students"
+      );
+
+      const newState = {
+        ...this.state,
+        id: this.props.selectedCampus.id,
+        students: this.props.selectedCampus.students
+      };
+
       delete newState.error;
 
-      await this.props.addSingleCampus(newState);
+      await this.props.updateSingleCampus(newState);
 
       this.setState({
         name: "",
@@ -45,7 +50,6 @@ class AddCampus extends Component {
         imageUrl: "",
         description: ""
       });
-      this.props.history.push("/campuses/");
     } catch (error) {
       this.setState({
         error
@@ -58,13 +62,32 @@ class AddCampus extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="name">Name</label>
-        <input type="text" name="name" onChange={this.handleChange} />
+        <input
+          type="text"
+          name="name"
+          onChange={this.handleChange}
+          // value={this.state.name}
+        />
         <label htmlFor="address">Address</label>
-        <input type="text" name="address" onChange={this.handleChange} />
+        <input
+          type="text"
+          name="address"
+          onChange={this.handleChange}
+          // value={this.state.address}
+        />
         <label htmlFor="imageUrl">ImageUrl</label>
-        <input type="text" name="imageUrl" onChange={this.handleChange} />
+        <input
+          type="text"
+          name="imageUrl"
+          onChange={this.handleChange}
+          // value={this.state.imageUrl}
+        />
         <label htmlFor="description">Description</label>
-        <textarea name="description" onChange={this.handleChange} />
+        <textarea
+          name="description"
+          onChange={this.handleChange}
+          // value={this.state.description}
+        />
         <button type="submit">Submit</button>
       </form>
     );
@@ -73,11 +96,17 @@ class AddCampus extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addSingleCampus: campus => dispatch(createCampus(campus))
+    updateSingleCampus: campus => dispatch(updateCampusThunk(campus))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    selectedCampus: state.campuses.selectedCampus
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(AddCampus);
+)(UpdateCampus);
