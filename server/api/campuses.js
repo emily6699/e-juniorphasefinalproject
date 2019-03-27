@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const { Campus } = require("../db");
+const { Campuses } = require("../db");
 
 router.get("/", async (req, res, next) => {
   try {
-    const campuses = await Campus.findAll();
+    const campuses = await Campuses.findAll();
     res.send(campuses);
   } catch (error) {
     next(error);

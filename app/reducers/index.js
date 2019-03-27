@@ -1,7 +1,9 @@
 // `combineReducers` is not currently being used...but it should!
 // When you're ready to use it, un-comment the line below!
 
-// import {combineReducers} from 'redux'
+import { combineReducers } from "redux";
+import { studentReducer } from "./studentsReducer";
+import { campusReducer } from "./campusesReducer";
 
 const initialState = {};
 
@@ -18,7 +20,7 @@ const setStudents = students => ({
   students
 });
 
-const campusReducer = (state = [], action) => {
+const campusReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CAMPUSES:
       return action.campuses;
@@ -27,7 +29,7 @@ const campusReducer = (state = [], action) => {
   }
 };
 
-const studentReducer = (state = [], action) => {
+const studentReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_STUDENTS:
       return action.students;

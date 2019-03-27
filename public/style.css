@@ -31,3 +31,22 @@ main {
   flex-direction: column;
   justify-content: center;
 }
+
+ul {
+  list-style-type: lower-roman;
+}
+
+.active {
+  background-color: rgb(67, 71, 67);
+}
+
+#navlinks {
+  display: flex;
+}
+
+.navlink {
+  color: rgb(12, 13, 14);
+}
+
+#navlink-students {
+}
