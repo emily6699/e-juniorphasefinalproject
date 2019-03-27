@@ -41,9 +41,9 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:campusId", async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
-    const campusId = Number(req.params.campusId);
+    const campusId = Number(req.params.id);
     const campus = await Campuses.findById(campusId);
     if (!campus) return next();
     campus.destroy();

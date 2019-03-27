@@ -43,9 +43,9 @@ router.post("/", async (req, res, next) => {
 });
 
 // eslint-disable-next-line quotes
-router.delete("/:studentId", async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
-    const studentId = Number(req.params.studentId);
+    const studentId = Number(req.params.id);
     const student = await Students.findById(studentId);
     if (!student) return next();
     student.destroy();
@@ -57,7 +57,7 @@ router.delete("/:studentId", async (req, res, next) => {
 
 router.put("/:studentId", async (req, res, next) => {
   try {
-    const studentId = Number(req.params.studentId);
+    const studentId = Number(req.params.id);
     let student = await Students.findById(studentId);
 
     if (!student) return next();
