@@ -10,7 +10,6 @@ const initialState = {
 };
 
 export const campusReducer = (state = initialState, action) => {
-  console.log("campusReducerrrrr", action);
   switch (action.type) {
     case "SET_CAMPUSES":
       return {

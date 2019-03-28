@@ -18,16 +18,21 @@ const Root = () => {
     <Router>
       <div>
         <nav>
-          <span> Welcome! </span>
-          <div className="nav-links">
-            <NavLink to="/campuses" className="navlink">
-              {" "}
-              Campuses{" "}
-            </NavLink>
-            <NavLink to="/students" className="navlink">
-              {" "}
-              Students
-            </NavLink>
+          <div>
+            <span> Welcome! </span>
+          </div>
+          <div className="space" />
+          <div>
+            <div className="nav-links">
+              <NavLink to="/campuses" className="navlink">
+                {" "}
+                Campuses{" "}
+              </NavLink>
+              <NavLink to="/students" className="navlink">
+                {" "}
+                Students
+              </NavLink>
+            </div>
           </div>
         </nav>
         <main>

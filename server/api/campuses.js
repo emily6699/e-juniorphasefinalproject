@@ -42,10 +42,8 @@ router.post("/", async (req, res, next) => {
 });
 
 router.delete("/:id", async (req, res, next) => {
-  console.log("hehrher111111", req.params.id);
   try {
     const id = Number(req.params.id);
-    console.log("hehrher333333", id);
     const campus = await Campuses.findById(id);
     if (!campus) return next();
     campus.destroy();

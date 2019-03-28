@@ -46,6 +46,7 @@ ul {
 
 .navlink {
   color: rgb(140, 146, 140);
+  padding: 10px;
 }
 
 .warning {
@@ -59,4 +60,9 @@ ul {
 #form {
   display: flex;
   flex-direction: column;
+}
+
+.space {
+  display: flex;
+  flex: 1;
 }

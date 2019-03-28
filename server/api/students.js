@@ -44,7 +44,6 @@ router.post("/", async (req, res, next) => {
 
 // eslint-disable-next-line quotes
 router.delete("/:id", async (req, res, next) => {
-  console.log("studentDELETE", req.params.id);
   try {
     const studentId = Number(req.params.id);
     const student = await Students.findById(studentId);
