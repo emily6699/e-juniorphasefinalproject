@@ -30,13 +30,13 @@ class SingleStudent extends Component {
   }
 }
 
-const mstp = state => ({
+const mapStateToProps = state => ({
   student: state.students.student,
   err: state.students.error,
   isLoading: state.students.isLoading
 });
 
 export default connect(
-  mstp,
+  mapStateToProps,
   { getStudent, updateStudent }
 )(SingleStudent);

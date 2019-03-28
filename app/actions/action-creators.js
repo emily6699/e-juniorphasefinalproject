@@ -72,9 +72,10 @@ export const campusError = () => ({
 });
 
 export const deleteCampus = id => {
+  console.log("inthunklkkkkk", id);
   return async dispatch => {
     const { data } = await axios.delete(`/api/campuses/${id}`);
-    return dispatch(removeCampus(id));
+    dispatch(removeCampus(id));
   };
   // return async dispatch => {
   //   try {
@@ -138,7 +139,7 @@ export const removeStudent = id => ({
 
 export const deleteStudent = id => {
   return async dispatch => {
-    const { data } = await axios.delete("/api/students", { data: { id: id } });
+    const { data } = await axios.delete(`/api/students/${id}`);
     return dispatch(removeStudent(id));
   };
 };

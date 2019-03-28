@@ -10,7 +10,8 @@ class AllCampuses extends Component {
     this.props.getCampuses();
   }
 
-  handleClick = async id => {
+  handleClick = id => {
+    console.log("clickkkkk", id);
     this.props.deleteCampus(id);
   };
 
@@ -40,9 +41,14 @@ const mapStateToProps = state => ({
   isLoading: state.campuses.isLoading
 });
 
+const mapDispatchToProps = dispatch => ({
+  deleteCampus: id => dispatch(deleteCampus(id)),
+  getCampuses: () => dispatch(getCampuses())
+});
+
 export default withRouter(
   connect(
     mapStateToProps,
-    { getCampuses, deleteCampus }
+    mapDispatchToProps
   )(AllCampuses)
 );

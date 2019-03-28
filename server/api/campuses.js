@@ -41,10 +41,12 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
+  console.log("hehrher111111", req.params.id);
   try {
-    const campusId = Number(req.params.id);
-    const campus = await Campuses.findById(campusId);
+    const id = Number(req.params.id);
+    console.log("hehrher333333", id);
+    const campus = await Campuses.findById(id);
     if (!campus) return next();
     campus.destroy();
     res.json(campus);
