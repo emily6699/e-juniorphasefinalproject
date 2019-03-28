@@ -17,14 +17,14 @@ export default class NewStudentForm extends Component {
     }
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
+  handleSubmit = async event => {
+    event.preventDefault();
     if (this.props.student) {
       this.props.update(this.props.student, {
-        firstName: e.target.firstName.value,
-        lastName: e.target.lastName.value,
-        gpa: e.target.gpa.value,
-        email: e.target.email.value
+        firstName: event.target.firstName.value,
+        lastName: event.target.lastName.value,
+        gpa: event.target.gpa.value,
+        email: event.target.email.value
       });
     } else {
       await axios.post("/api/students", this.state);
@@ -32,9 +32,9 @@ export default class NewStudentForm extends Component {
     }
   };
 
-  handleChange = e => {
+  handleChange = event => {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   };
 

@@ -73,9 +73,17 @@ export const campusError = () => ({
 
 export const deleteCampus = id => {
   return async dispatch => {
-    const { data } = await axios.delete("/api/campuses", { data: { id: id } });
+    const { data } = await axios.delete(`/api/campuses/${id}`);
     return dispatch(removeCampus(id));
   };
+  // return async dispatch => {
+  //   try {
+  //     await axios.delete(`/api/campuses/${id}`);
+  //     dispatch(removeCampus(id));
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 };
 
 export const updateCampus = (campus, newData) => {
