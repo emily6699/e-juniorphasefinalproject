@@ -19,11 +19,13 @@ class AllCampuses extends Component {
     if (this.props.isLoading) return <h1>LOADING...</h1>;
     return (
       <div>
-        <Link to={"/newcampus"}>Add a campus</Link>
+        <Link className="text" to={"/newcampus"}>
+          Add a campus
+        </Link>
         <br />
         Campuses:
         {this.props.list.map(campus => (
-          <div key={campus.id}>
+          <div className="text" key={campus.id}>
             <button onClick={() => this.handleClick(campus.id)}>X</button>
             <Link to={`campuses/${campus.id}`}>
               <h2>{campus.name}</h2>

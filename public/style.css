@@ -66,3 +66,7 @@ ul {
   display: flex;
   flex: 1;
 }
+
+.test {
+  color: rgb(39, 37, 37);
+}
